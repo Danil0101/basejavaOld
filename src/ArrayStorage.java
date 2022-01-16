@@ -44,7 +44,7 @@ public class ArrayStorage {
             storage[searchIndex] = null;
         } else {
             System.arraycopy(storage, searchIndex + 1, storage,
-                    searchIndex, storage.length - searchIndex - 1);
+                    searchIndex, size - searchIndex - 1);
         }
         size--;
     }
@@ -53,9 +53,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] result = new Resume[size];
-        System.arraycopy(storage, 0, result, 0, size);
-        return result;
+        Resume[] allResume = new Resume[size];
+        System.arraycopy(storage, 0, allResume, 0, size);
+        return allResume;
     }
 
     int size() {
