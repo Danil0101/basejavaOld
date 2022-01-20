@@ -18,44 +18,42 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) != -1) {
-            printMessage("Resume is already present");
-            return;
+        if (getIndex(resume.getUuid()) > -1) {
+            System.out.printf("Resume with uuid: '%s' is already present%n", resume.getUuid());
+        } else if (size == storage.length) {
+            System.out.println("Storage is full");
+        } else {
+            storage[size++] = resume;
         }
-        if (size == storage.length) {
-            printMessage("Storage is full");
-            return;
-        }
-        storage[size++] = resume;
     }
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index == -1) {
-            printMessage("Resume not found");
-        } else {
+        if (index > -1) {
             storage[index] = resume;
+        } else {
+            System.out.printf("Resume with uuid: '%s' not found%n", resume.getUuid());
         }
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
-            printMessage("Resume not found");
-            return null;
+        if (index > -1) {
+            return storage[index];
         }
-        return storage[index];
+        System.out.printf("Resume with uuid: '%s' not found%n", uuid);
+        return null;
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
-            printMessage("Resume not found");
-            return;
+        if (index > -1) {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.printf("Resume with uuid: '%s' not found%n", uuid);
         }
-        storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
     }
 
     /**
@@ -76,9 +74,5 @@ public class ArrayStorage {
             }
         }
         return -1;
-    }
-
-    private void printMessage(String message) {
-        System.out.println(message);
     }
 }
