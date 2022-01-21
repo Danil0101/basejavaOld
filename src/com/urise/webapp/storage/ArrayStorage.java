@@ -8,8 +8,9 @@ import java.util.Objects;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage {
+    private static final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
@@ -20,7 +21,7 @@ public class ArrayStorage {
     public void save(Resume resume) {
         if (getIndex(resume.getUuid()) > -1) {
             System.out.printf("Resume: '%s' already exist%n", resume.getUuid());
-        } else if (size == storage.length) {
+        } else if (size == STORAGE_LIMIT) {
             System.out.println("Storage overflow");
         } else {
             storage[size] = resume;
@@ -57,9 +58,6 @@ public class ArrayStorage {
         }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
