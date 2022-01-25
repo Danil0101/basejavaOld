@@ -48,6 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Storage overflow");
         } else {
             saveAbstract(resume, index);
+            size++;
         }
     }
 
@@ -57,6 +58,8 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.printf("Resume: '%s' not exist%n", uuid);
         } else {
             deleteAbstract(index);
+            storage[size - 1] = null;
+            size--;
         }
     }
 
