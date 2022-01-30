@@ -1,8 +1,6 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exeption.ExistStorageException;
-import com.urise.webapp.exeption.NotExistStorageException;
-import com.urise.webapp.exeption.StorageException;
+import com.urise.webapp.exeption.*;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
