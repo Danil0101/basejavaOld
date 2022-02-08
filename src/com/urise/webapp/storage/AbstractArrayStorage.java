@@ -5,66 +5,51 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public final void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        storage[index] = resume;
-    }
-
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    public final void save(Resume resume) {
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            throw new ExistStorageException(uuid);
-        }
-        if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", uuid);
-        }
-        insertElement(resume, index);
-        size++;
-    }
-
-    public final void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        fillDeletedElement(index);
-        storage[size - 1] = null;
-        size--;
-    }
-
-    public final Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    protected Resume getElementByIndex(int index) {
         return storage[index];
     }
 
-    protected abstract void fillDeletedElement(int index);
+    @Override
+    protected void insertElementByIndex(Resume resume, int index) {
+        storage[index] = resume;
+    }
 
-    protected abstract void insertElement(Resume resume, int index);
+    @Override
+    protected void increaseArraySize() {
+        size++;
+    }
 
-    protected abstract int getIndex(String uuid);
+    @Override
+    protected void isStorageOverflow(String uuid) {
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow", uuid);
+        }
+    }
+
+    @Override
+    protected void decreaseArraySize() {
+        storage[size--] = null;
+    }
 }
