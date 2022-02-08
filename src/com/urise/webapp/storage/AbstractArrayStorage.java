@@ -32,16 +32,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void insertElementByIndex(Resume resume, int index) {
+    protected void updateElement(Resume resume, int index) {
         storage[index] = resume;
-    }
-
-    @Override
-    protected void increaseArraySize() {
         size++;
     }
 
-    @Override
     protected void isStorageOverflow(String uuid) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", uuid);

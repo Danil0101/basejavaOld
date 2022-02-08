@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListStorage extends AbstractStorage {
-    protected final List<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     public int size() {
@@ -40,7 +40,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void insertElementByIndex(Resume resume, int index) {
+    protected void updateElement(Resume resume, int index) {
         storage.set(index, resume);
     }
 
